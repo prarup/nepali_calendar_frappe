@@ -1,0 +1,56 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-04-03 14:46:24.122816",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "nepali_date_setting_section",
+  "nepali_date_format",
+  "nepali_date_datepicker_format"
+ ],
+ "fields": [
+  {
+   "fieldname": "nepali_date_setting_section",
+   "fieldtype": "Section Break",
+   "label": "Nepali Date Setting"
+  },
+  {
+   "default": "mm-dd-yyyy",
+   "fieldname": "nepali_date_format",
+   "fieldtype": "Select",
+   "label": "Print Format",
+   "options": "mm-dd-yyyy\nmm.dd.yyyy\nmm/dd/yyyy\ndd-mm-yyyy\ndd.mm.yyyy\ndd/mm/yyyy\nyyyy-mm-dd\nyyyy/mm/dd\nyyyy.mm.dd"
+  },
+  {
+   "default": "mm-dd-yyyy",
+   "fieldname": "nepali_date_datepicker_format",
+   "fieldtype": "Select",
+   "label": "Datepicker Format",
+   "options": "mm-dd-yyyy\nmm.dd.yyyy\nmm/dd/yyyy\ndd-mm-yyyy\ndd.mm.yyyy\ndd/mm/yyyy\nyyyy-mm-dd\nyyyy/mm/dd\nyyyy.mm.dd"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-04-05 16:46:53.688344",
+ "modified_by": "Administrator",
+ "module": "Nepali Calendar",
+ "name": "Nepali Date Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,1 +1,7 @@
-# nepali_calendar
+## Nepali Calendar
+
+Nepali calendar
+
+#### License
+
+mit
