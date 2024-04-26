@@ -6,3 +6,21 @@ This app also provides us the option to switch easily between Gregorian and Nepa
 #### License
 
 mit
+
+This custom frappe app allows you to use and switch between nepali dates on all the date fields in the erpnext.
+
+Installation
+To install the Nepali Calendar application, follow these steps:
+
+Navigate to your frappe-bench directory where your erpnext is installed:
+
+cd frappe-bench
+Clone the repository
+
+bench get-app https://github.com/kanakinfo/nepali_calendar.git
+
+Install the app on your site, for example, your site name is kanak.
+
+bench --site kanak install-app nepali_calendar
+
+App will be ready to use in your site and you can easily use and switch between nepali dates on your erpnext site.
