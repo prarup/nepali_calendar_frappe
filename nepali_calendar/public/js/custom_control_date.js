@@ -25,6 +25,9 @@ function FormatFormDate(value) {
 
     if (!formatted) { return formatted; }
     const date = frappe.datetime.str_to_obj(value);
+    if(moment(date).year() > 2090){
+        return formatted;
+    }
     let naplidate = new NepaliDate(new Date(date));
     let bs_date_formatted = naplidate.format(BS_DATE_FORMAT.toUpperCase(), 'np');
     return formatted + '<br />' + bs_date_formatted;
@@ -37,6 +40,9 @@ function FormatFormDatetime(value) {
     if (!formatted) { return formatted; }
 
     const date = frappe.datetime.str_to_obj(value);
+    if(moment(date).year() > 2090){
+        return formatted;
+    }
     let naplidate = new NepaliDate(new Date(date));
     let bs_date_formatted = naplidate.format(BS_DATE_FORMAT.toUpperCase(), 'np');
     return formatted + '<br />' + bs_date_formatted;
@@ -47,9 +53,6 @@ frappe.ui.form.ControlDate = class CustomControlDate extends frappe.ui.form.Cont
         super.make_input();
         this.$npInput = this.$input.clone();
         this.$npInput.addClass('hide');
-        // this.$npInput.removeAttr('data-fieldtype');
-        // this.$npInput.removeAttr('data-fieldname');
-        // this.show_default_nepali();
         this.npmake_picker();
         this._toggleDatepicker();
         frappe.form.formatters.Date = FormatFormDate;
@@ -145,6 +148,9 @@ frappe.ui.form.ControlDate = class CustomControlDate extends frappe.ui.form.Cont
     }
     ad2bs(m, type, dateFormat = BS_DATE_FORMAT){
         if (!m) { return null; }
+        if(m.year() > 2090){
+            return false;
+        }
         return this.ad2bs_date(m, type);
     }
     ad2bs_date(m, type = TYPE_DATE){
@@ -172,8 +178,13 @@ frappe.ui.form.ControlDate = class CustomControlDate extends frappe.ui.form.Cont
         } else {
             adDate = selectedDate.toDate();
         }
-        let naplidate = new NepaliDate(adDate);
-        return naplidate.format(BS_DATE_FORMAT.toUpperCase(), 'np');
+        if(selectedDate.year() > 2090){
+            return;
+        }else{
+            let naplidate = new NepaliDate(adDate);
+            return naplidate.format(BS_DATE_FORMAT.toUpperCase(), 'np');
+        }
+        
     }
     _printDateConversion(){
         let value = this.get_value();
@@ -212,9 +223,6 @@ frappe.ui.form.ControlDate = class CustomControlDate extends frappe.ui.form.Cont
         } else {
             this.$wrapper.find('.nd_switch_btn').css('display', 'block');
         }
-    }
-    set_np_date(value){
-
     }
 };
 
@@ -317,6 +325,9 @@ frappe.ui.form.ControlDatetime = class CustomControlDateDate extends frappe.ui.f
     }
     ad2bs(m, type, dateFormat = BS_DATE_FORMAT){
         if (!m) { return null; }
+        if(m.year() > 2090){
+            return false;
+        }
         return this.ad2bs_date(m, type);
     }
     ad2bs_date(m, type = TYPE_DATE){
@@ -344,8 +355,12 @@ frappe.ui.form.ControlDatetime = class CustomControlDateDate extends frappe.ui.f
         } else {
             adDate = selectedDate.toDate();
         }
-        let naplidate = new NepaliDate(adDate);
-        return naplidate.format(BS_DATE_FORMAT.toUpperCase(), 'np');
+        if(selectedDate.year() > 2090){
+            return;
+        }else{
+            let naplidate = new NepaliDate(adDate);
+            return naplidate.format(BS_DATE_FORMAT.toUpperCase(), 'np');
+        }
     }
     _printDateConversion(){
         let value = this.get_value();
@@ -394,6 +409,9 @@ frappe.ui.form.ControlDatetime = class CustomControlDateDate extends frappe.ui.f
 
         if (!formatted) { return formatted; }
         const date = frappe.datetime.str_to_obj(value);
+        if(moment(date).year() > 2090){
+            return formatted;
+        }
         let naplidate = new NepaliDate(new Date(date));
         let bs_date_formatted = naplidate.format(BS_DATE_FORMAT.toUpperCase(), 'np');
         return bs_date_formatted + '<br />' + formatted;
@@ -406,6 +424,9 @@ frappe.ui.form.ControlDatetime = class CustomControlDateDate extends frappe.ui.f
         if (!formatted) { return formatted; }
 
         const date = frappe.datetime.str_to_obj(value);
+        if(moment(date).year() > 2090){
+            return formatted;
+        }
         let naplidate = new NepaliDate(new Date(date));
         let bs_date_formatted = naplidate.format(BS_DATE_FORMAT.toUpperCase(), 'np');
         return bs_date_formatted + '<br />' + formatted;
@@ -413,24 +434,6 @@ frappe.ui.form.ControlDatetime = class CustomControlDateDate extends frappe.ui.f
 class CustomDataTable extends DataTable {
     initializeComponents() {
         super.initializeComponents();
-        const originalsetColumnHeaderWidth = this.columnmanager.setColumnHeaderWidth;
-        const originalsetColumnWidth = this.columnmanager.setColumnWidth;
-        this.columnmanager.setColumnHeaderWidth = function(colIndex) {
-            originalsetColumnHeaderWidth.call(this, colIndex);
-            var column = this.getColumn(colIndex);
-            if(['Datetime', 'Date'].includes(column.fieldtype)){
-                let $column = this.$columnMap[colIndex];
-                $column.style.width = '300' + 'px';
-            }
-        };
-        this.columnmanager.setColumnWidth = function(colIndex, width) {
-            var column = this.getColumn(colIndex);
-            if(['Datetime', 'Date'].includes(column.fieldtype)){
-                width = '300';
-            }
-            originalsetColumnWidth.call(this, colIndex, width);
-            
-        };
         const originalgetCellContent = this.cellmanager.getCellContent;
         this.cellmanager.getCellContent = function(cell, refreshHtml = false) {
             var hcontent = originalgetCellContent.call(this, cell, refreshHtml);

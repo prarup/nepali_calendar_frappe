@@ -4604,9 +4604,8 @@
         let filterMethodMap = {
           contains(keyword, cells) {
             return cells.filter((cell) => {
-              const hay = stringCompareValue(cell);
               const needle = (keyword || "").toLowerCase();
-              return !needle || hay.includes(needle);
+              return !needle || (cell.content || "").toLowerCase().includes(needle) || stringCompareValue(cell).includes(needle);
             }).map((cell) => cell.rowIndex);
           },
           greaterThan(keyword, cells) {
@@ -5569,6 +5568,9 @@
       return formatted;
     }
     const date = frappe.datetime.str_to_obj(value);
+    if (moment(date).year() > 2090) {
+      return formatted;
+    }
     let naplidate = new nepali_date_converter_es5_default(new Date(date));
     let bs_date_formatted = naplidate.format(BS_DATE_FORMAT.toUpperCase(), "np");
     return formatted + "<br />" + bs_date_formatted;
@@ -5580,6 +5582,9 @@
       return formatted;
     }
     const date = frappe.datetime.str_to_obj(value);
+    if (moment(date).year() > 2090) {
+      return formatted;
+    }
     let naplidate = new nepali_date_converter_es5_default(new Date(date));
     let bs_date_formatted = naplidate.format(BS_DATE_FORMAT.toUpperCase(), "np");
     return formatted + "<br />" + bs_date_formatted;
@@ -5686,6 +5691,9 @@
       if (!m) {
         return null;
       }
+      if (m.year() > 2090) {
+        return false;
+      }
       return this.ad2bs_date(m, type);
     }
     ad2bs_date(m, type = TYPE_DATE) {
@@ -5712,8 +5720,12 @@
       } else {
         adDate = selectedDate.toDate();
       }
-      let naplidate = new nepali_date_converter_es5_default(adDate);
-      return naplidate.format(BS_DATE_FORMAT.toUpperCase(), "np");
+      if (selectedDate.year() > 2090) {
+        return;
+      } else {
+        let naplidate = new nepali_date_converter_es5_default(adDate);
+        return naplidate.format(BS_DATE_FORMAT.toUpperCase(), "np");
+      }
     }
     _printDateConversion() {
       let value = this.get_value();
@@ -5748,8 +5760,6 @@
       } else {
         this.$wrapper.find(".nd_switch_btn").css("display", "block");
       }
-    }
-    set_np_date(value) {
     }
   };
   frappe.ui.form.ControlDatetime = class CustomControlDateDate extends frappe.ui.form.ControlDatetime {
@@ -5852,6 +5862,9 @@
       if (!m) {
         return null;
       }
+      if (m.year() > 2090) {
+        return false;
+      }
       return this.ad2bs_date(m, type);
     }
     ad2bs_date(m, type = TYPE_DATE) {
@@ -5878,8 +5891,12 @@
       } else {
         adDate = selectedDate.toDate();
       }
-      let naplidate = new nepali_date_converter_es5_default(adDate);
-      return naplidate.format(BS_DATE_FORMAT.toUpperCase(), "np");
+      if (selectedDate.year() > 2090) {
+        return;
+      } else {
+        let naplidate = new nepali_date_converter_es5_default(adDate);
+        return naplidate.format(BS_DATE_FORMAT.toUpperCase(), "np");
+      }
     }
     _printDateConversion() {
       let value = this.get_value();
@@ -5923,6 +5940,9 @@
       return formatted;
     }
     const date = frappe.datetime.str_to_obj(value);
+    if (moment(date).year() > 2090) {
+      return formatted;
+    }
     let naplidate = new nepali_date_converter_es5_default(new Date(date));
     let bs_date_formatted = naplidate.format(BS_DATE_FORMAT.toUpperCase(), "np");
     return bs_date_formatted + "<br />" + formatted;
@@ -5934,6 +5954,9 @@
       return formatted;
     }
     const date = frappe.datetime.str_to_obj(value);
+    if (moment(date).year() > 2090) {
+      return formatted;
+    }
     let naplidate = new nepali_date_converter_es5_default(new Date(date));
     let bs_date_formatted = naplidate.format(BS_DATE_FORMAT.toUpperCase(), "np");
     return bs_date_formatted + "<br />" + formatted;
@@ -5941,23 +5964,6 @@
   var CustomDataTable = class extends import_frappe_datatable.default {
     initializeComponents() {
       super.initializeComponents();
-      const originalsetColumnHeaderWidth = this.columnmanager.setColumnHeaderWidth;
-      const originalsetColumnWidth = this.columnmanager.setColumnWidth;
-      this.columnmanager.setColumnHeaderWidth = function(colIndex) {
-        originalsetColumnHeaderWidth.call(this, colIndex);
-        var column = this.getColumn(colIndex);
-        if (["Datetime", "Date"].includes(column.fieldtype)) {
-          let $column = this.$columnMap[colIndex];
-          $column.style.width = "300px";
-        }
-      };
-      this.columnmanager.setColumnWidth = function(colIndex, width) {
-        var column = this.getColumn(colIndex);
-        if (["Datetime", "Date"].includes(column.fieldtype)) {
-          width = "300";
-        }
-        originalsetColumnWidth.call(this, colIndex, width);
-      };
       const originalgetCellContent = this.cellmanager.getCellContent;
       this.cellmanager.getCellContent = function(cell, refreshHtml = false) {
         var hcontent = originalgetCellContent.call(this, cell, refreshHtml);
@@ -6088,4 +6094,4 @@ See the Apache Version 2.0 License for specific language governing permissions
 and limitations under the License.
 ***************************************************************************** */
 /*! Sortable 1.15.0 - MIT | git://github.com/SortableJS/Sortable.git */
-//# sourceMappingURL=nepali_assets.bundle.YHOW5ZRH.js.map
+//# sourceMappingURL=nepali_assets.bundle.IZ6W2VUE.js.map
